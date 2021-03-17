@@ -11,6 +11,7 @@ class MemeGenerator extends Component {
           memes:[]
         }
         this.changeHandler=this.changeHandler.bind(this)
+        this.genClicked=this.genClicked.bind(this)
     }
 
     changeHandler(evt){
@@ -20,8 +21,14 @@ class MemeGenerator extends Component {
       })
     }
 
-    genClicked(){
-        alert("sd")
+    genClicked(evt){
+      evt.preventDefault()
+      const memes = this.state.memes
+      const randomIndex=Math.floor(Math.random()*memes.length)
+      const newRandomImg = memes[randomIndex].url
+        this.setState({
+          randomImg:newRandomImg
+        })
     }
 
     componentDidMount(){
