@@ -8,21 +8,62 @@ class MemeGenerator extends Component {
           topText:"",
           bottomText:"",
           randomImg:"http://i.imgflip.com/1bij.jpg",
+          memes:[]
         }
+        this.changeHandler=this.changeHandler.bind(this)
     }
 
-    /**
-     * We'll be using an API that provides a bunch of meme images.
-     * 
-     * Your task:
-     * make an API call to "https://api.imgflip.com/get_memes" and save the 
-     * data that comes back (`response.data.memes`) to a new state property
-     * called `allMemeImgs`. (The data that comes back is an array)
-     */
+    changeHandler(evt){
+      const {name,value} = evt.target
+      this.setState({
+          [name]:value
+      })
+    }
+
+    genClicked(){
+        alert("sd")
+    }
+
+    componentDidMount(){
+      fetch("https://api.imgflip.com/get_memes")
+        .then(response => response.json())
+        .then(response => {
+          const {memes} = response.data
+          this.setState({
+            memes:memes
+            })
+        })
+    }
     
     render() {
         return (
-            <h1>MEME GENERATOR SECTION</h1>
+            <>
+              <form className="meme-form">
+              
+                <input 
+                type="text" 
+                value={this.state.topText} 
+                name="topText" 
+                onChange={this.changeHandler}
+                placeholder="topText" />
+
+                <input 
+                type="text" 
+                value={this.state.bottomText} 
+                name="bottomText" 
+                onChange={this.changeHandler}
+                placeholder="bottomText" />
+
+                <button onClick={this.genClicked}>Gen</button>
+              </form>
+
+              <div className="meme">
+                <img src={this.state.randomImg} alt="" />
+                <h2 className="top">{this.state.topText}</h2>
+                <h2 className="bottom">{this.state.bottomText}</h2>
+              </div>
+              
+            </>
         )
     }
 }
